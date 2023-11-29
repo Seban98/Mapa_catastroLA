@@ -89,6 +89,7 @@
 	     box-sizing: border-box;
 	z-index: 800;
 	}
+
 /* workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=888319 */
 .leaflet-overlay-pane svg {
 	-moz-user-select: none;
@@ -392,6 +393,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	margin: 5px -10px 5px -6px;
 	}
 
+
 /* Default icon URLs */
 .leaflet-default-icon-path {
 	background-image: url(images/marker-icon.png);
@@ -638,3 +640,4 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	margin-left: -12px;
 	border-right-color: #fff;
 	}
+

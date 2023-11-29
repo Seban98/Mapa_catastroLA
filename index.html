@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
+
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
@@ -9,8 +10,11 @@
         <link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/MarkerCluster.css">
+<link rel="stylesheet" href="css/Control.FullScreen.css">
         <link rel="stylesheet" href="css/MarkerCluster.Default.css">
         <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+   <link rel="stylesheet" href="Control.FullScreen.css" />
+
         <style>
         html, body, #map {
             width: 100%;
@@ -20,7 +24,7 @@
         }
         </style>
         <title></title>
-        <label for="filtroLocal">Filtrar por local:</label>
+<label for="filtroLocal">Filtrar por local:</label>
 <select id="filtroLocal" onchange="filtrarPorLocal()">
     <option value="">Todos</option>
 <option value="Abarrotes">Abarrotes</option>
@@ -75,6 +79,8 @@
     <body>
         <div id="map">
         </div>
+      <button id="fullscreenButton" onclick="toggleFullScreen()">Toggle Full Screen</button>
+<button onclick="toggleFullScreen()">Toggle Full Screen</button>
         <script src="js/qgis2web_expressions.js"></script>
         <script src="js/leaflet.js"></script>
         <script src="js/leaflet.rotatedMarker.js"></script>
@@ -87,6 +93,7 @@
         <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
         <script src="js/leaflet.markercluster.js"></script>
         <script src="data/ptos_catastro_1.js"></script>
+< script src="Control.FullScreen.js"></script>
         <script>
         var map = L.map('map', {
             zoomControl:true, maxZoom:28, minZoom:1
@@ -107,6 +114,7 @@
             maxZoom: 28,
             minNativeZoom: 0,
             maxNativeZoom: 19
+
         });
         layer_OSMStandard_0;
         map.addLayer(layer_OSMStandard_0);
@@ -199,7 +207,14 @@
         var baseMaps = {};
         L.control.layers(baseMaps,{'<img src="legend/ptos_catastro_1.png" /> Puntos catastro': cluster_ptos_catastro_1,"OSM Standard": layer_OSMStandard_0,},{collapsed:false}).addTo(map);
         setBounds();
-            function filtrarPorLocal() {
+var searchControl = new L.Control.Search({
+            layer: geojsonLayer,
+            propertyName: 'ID', // Propiedad en tus datos que se utilizará para la búsqueda
+            marker: false
+
+        });
+
+ function filtrarPorLocal() {
         var selectedLocal = document.getElementById('filtroLocal').value;
 
         // Clear previous filters
@@ -225,6 +240,19 @@
             cluster_ptos_catastro_1.addLayer(layer_ptos_catastro_1);
         }
     }
+      function toggleFullScreen() {
+            var elem = document.getElementById('map');
+
+            if (!document.fullscreenElement) {
+                elem.requestFullscreen().catch(err => {
+                    console.error('Error al intentar activar el modo de pantalla completa:', err);
+                });
+            } else {
+                document.exitFullscreen().catch(err => {
+                    console.error('Error al intentar salir del modo de pantalla completa:', err);
+                });
+            }
+        }
         </script>
     </body>
 </html>
