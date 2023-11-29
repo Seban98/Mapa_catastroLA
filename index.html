@@ -20,6 +20,57 @@
         }
         </style>
         <title></title>
+        <label for="filtroLocal">Filtrar por local:</label>
+<select id="filtroLocal" onchange="filtrarPorLocal()">
+    <option value="">Todos</option>
+<option value="Abarrotes">Abarrotes</option>
+<option value="Importadora Premium">Importadora Premium</option>
+<option value="Ciber y Recargas">Ciber y Recargas</option>
+<option value="Optica BioBio">Optica BioBio</option>
+<option value="Carniceria (Centro de Carnes)">Carniceria (Centro de Carnes)</option>
+<option value="Galeria Centro Espana">Galeria Centro Espana</option>
+<option value="Salcobrand">Salcobrand</option>
+<option value="Lomito sureno">Lomito sureno</option>
+<option value="Servicio tecnico impresoras y respuestos de tintas">Servicio tecnico impresoras y respuestos de tintas</option>
+<option value="Optica">Optica</option>
+<option value="Servicio tecnico Ruiz EIRL">Servicio tecnico Ruiz EIRL</option>
+<option value="Tottus (ex sodimac)">Tottus (ex sodimac)</option>
+<option value="Bar Al Paso Restaurant">Bar Al Paso Restaurant</option>
+<option value="Nuevo Centro de Carnes">Nuevo Centro de Carnes</option>
+<option value="La Brocha Gorda">La Brocha Gorda</option>
+<option value="Supermercado Tamarugal">Supermercado Tamarugal</option>
+<option value="El Mayorista 1">El Mayorista 1</option>
+<option value="L'Olleta">L'Olleta</option>
+<option value="Centro de Llamada Andreita">Centro de Llamada Andreita</option>
+<option value="Top Musical Local 17">Top Musical Local 17</option>
+<option value="Recarga Electronica">Recarga Electronica</option>
+<option value="Hush Puppies">Hush Puppies</option>
+<option value="La Covadonga">La Covadonga</option>
+<option value="El Copihue">El Copihue</option>
+<option value="LA Sports">LA Sports</option>
+<option value="El padrino">El padrino</option>
+<option value="NORFI">NORFI</option>
+<option value="Tienda de ropa Americana">Tienda de ropa Americana</option>
+<option value="Ferreteria El Martillo">Ferreteria El Martillo</option>
+<option value="Galeria Pumahue">Galeria Pumahue</option>
+<option value="Pets Rengo">Pets Rengo</option>
+<option value="Ferreteria Villagran">Ferreteria Villagran</option>
+<option value="Importadora Style Americana">Importadora Style Americana</option>
+<option value="Libreria Rengo">Libreria Rengo</option>
+<option value="Restaurante Kavasso">Restaurante Kavasso</option>
+<option value="Ferreteria Grez y Ulloa">Ferreteria Grez y Ulloa</option>
+<option value="Escuela General Jose de San Martin D 926">Escuela General Jose de San Martin D 926</option>
+<option value="Hostal Suomi">Hostal Suomi</option>
+<option value="Preuniversitario Cpech">Preuniversitario Cpech</option>
+<option value="Comida Moncho Delivery Gourmet">Comida Moncho Delivery Gourmet</option>
+<option value="Iglesia San Francisco De Asis">Iglesia San Francisco De Asis</option>
+<option value="Ferreteria Bio Riego">Ferreteria Bio Riego</option>
+<option value="Transportes Em">Transportes Em</option>
+<option value="Sisa Ltda">Sisa Ltda</option>
+<option value="Cicles Bruno">Cicles Bruno</option>
+<option value="Fotoaudio">Fotoaudio</option>
+    <!-- Add options dynamically based on unique 'descripcio' values from your GeoJSON data -->
+</select>
     </head>
     <body>
         <div id="map">
@@ -148,6 +199,32 @@
         var baseMaps = {};
         L.control.layers(baseMaps,{'<img src="legend/ptos_catastro_1.png" /> Puntos catastro': cluster_ptos_catastro_1,"OSM Standard": layer_OSMStandard_0,},{collapsed:false}).addTo(map);
         setBounds();
+            function filtrarPorLocal() {
+        var selectedLocal = document.getElementById('filtroLocal').value;
+
+        // Clear previous filters
+        cluster_ptos_catastro_1.clearLayers();
+
+        // Apply the filter if a local is selected, otherwise show all points
+        if (selectedLocal) {
+            var filteredFeatures = json_ptos_catastro_1.features.filter(feature => feature.properties.descripcio === selectedLocal);
+            var filteredLayer = new L.geoJson(filteredFeatures, {
+                onEachFeature: pop_ptos_catastro_1,
+                pointToLayer: function (feature, latlng) {
+                    var context = {
+                        feature: feature,
+                        variables: {}
+                    };
+                    return L.circleMarker(latlng, style_ptos_catastro_1_0(feature));
+                },
+            });
+
+            cluster_ptos_catastro_1.addLayer(filteredLayer);
+        } else {
+            // If no local is selected, show all points
+            cluster_ptos_catastro_1.addLayer(layer_ptos_catastro_1);
+        }
+    }
         </script>
     </body>
 </html>
